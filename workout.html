@@ -8,53 +8,28 @@
   <meta name="apple-mobile-web-app-title" content="Workout" />
   <title>Workout</title>
   <link rel="apple-touch-icon" href="apple-touch-icon.png" />
-
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --bg: #0a0a0a;
-      --surface: #111111;
-      --border: #1e1e1e;
-      --border2: #2a2a2a;
-      --accent: #2563eb;
-      --green: #22c55e;
-      --text: #f0f0f0;
-      --muted: #888888;
-      --dim: #555555;
-      --safe-top: env(safe-area-inset-top, 0px);
-      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --bg: #0a0a0a; --surface: #111111; --border: #1e1e1e; --border2: #2a2a2a;
+      --accent: #2563eb; --green: #22c55e; --text: #f0f0f0; --muted: #888; --dim: #555;
+      --safe-top: env(safe-area-inset-top, 0px); --safe-bottom: env(safe-area-inset-bottom, 0px);
     }
-
     html, body {
-      background: var(--bg);
-      color: var(--text);
+      background: var(--bg); color: var(--text);
       font-family: -apple-system, 'Helvetica Neue', sans-serif;
-      min-height: 100vh;
-      -webkit-tap-highlight-color: transparent;
-      overscroll-behavior: none;
+      min-height: 100vh; -webkit-tap-highlight-color: transparent; overscroll-behavior: none;
     }
-
-    body {
-      max-width: 480px;
-      margin: 0 auto;
-      padding-bottom: calc(40px + var(--safe-bottom));
-    }
-
+    body { max-width: 480px; margin: 0 auto; padding-bottom: calc(40px + var(--safe-bottom)); }
     button { cursor: pointer; font-family: inherit; border: none; background: none; }
     input { font-family: inherit; }
-
     .screen { display: none; }
     .screen.active { display: block; }
 
     /* HOME */
-    #home-header {
-      padding: calc(var(--safe-top) + 44px) 24px 24px;
-      border-bottom: 1px solid var(--border);
-    }
+    #home-header { padding: calc(var(--safe-top) + 44px) 24px 24px; border-bottom: 1px solid var(--border); }
     .app-title { font-size: 30px; font-weight: 900; letter-spacing: 0.18em; text-transform: uppercase; }
     .app-sub { font-size: 11px; color: var(--dim); margin-top: 4px; letter-spacing: 0.08em; text-transform: uppercase; }
-
     .day-cards { display: flex; gap: 12px; padding: 20px 16px 16px; }
     .day-card {
       flex: 1; background: var(--surface); border: 1px solid var(--border);
@@ -65,7 +40,6 @@
     .day-letter { font-size: 44px; font-weight: 900; color: var(--accent); line-height: 1; }
     .day-label { font-size: 11px; color: var(--muted); margin: 4px 0 12px; text-transform: uppercase; letter-spacing: 0.08em; }
     .day-ex-item { font-size: 11px; color: var(--dim); margin-bottom: 3px; }
-
     .last-session { margin: 0 16px 8px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
     .last-session-title { font-size: 10px; color: var(--dim); text-transform: uppercase; letter-spacing: 0.1em; padding: 10px 14px 6px; border-bottom: 1px solid var(--border); }
     .last-session-row { display: flex; justify-content: space-between; align-items: center; padding: 7px 14px; border-bottom: 1px solid var(--border); font-size: 13px; }
@@ -73,30 +47,25 @@
     .last-session-ex { color: var(--muted); }
     .last-session-w { color: var(--accent); font-weight: 700; }
 
+    /* REST CHIPS — shared style used in both home and session */
     .rest-setting { display: flex; align-items: center; gap: 10px; padding: 12px 16px 4px; }
     .rest-label { font-size: 11px; color: var(--dim); text-transform: uppercase; letter-spacing: 0.08em; white-space: nowrap; }
     .rest-chips { display: flex; gap: 6px; flex-wrap: wrap; }
     .rest-chip { background: var(--surface); border: 1px solid var(--border2); border-radius: 6px; color: var(--dim); font-size: 12px; padding: 5px 11px; transition: border-color 0.15s, color 0.15s; }
     .rest-chip.active { border-color: var(--accent); color: var(--accent); }
 
-    /* SESSION HEADER */
+    /* SESSION */
     #session-header {
       display: flex; align-items: center; justify-content: space-between;
-      padding: calc(var(--safe-top) + 14px) 20px 14px;
-      border-bottom: 1px solid #1a1a1a;
+      padding: calc(var(--safe-top) + 14px) 20px 14px; border-bottom: 1px solid #1a1a1a;
     }
     #back-btn { font-size: 13px; color: var(--dim); padding: 4px 0; }
     #session-title { font-size: 14px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; }
     #progress-counter { font-size: 13px; color: var(--accent); font-weight: 700; }
+    #session-rest { border-bottom: 1px solid var(--border); padding: 10px 16px; }
 
-    /* EXERCISE LIST */
     #exercise-list { padding: 12px 16px; display: flex; flex-direction: column; gap: 10px; }
-
-    .ex-card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 12px; padding: 14px 16px;
-      transition: opacity 0.25s, border-color 0.25s;
-    }
+    .ex-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; transition: opacity 0.25s, border-color 0.25s; }
     .ex-card.done { opacity: 0.38; border-color: #1a2a1a; }
     .ex-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
     .ex-name { font-size: 15px; font-weight: 700; color: var(--text); }
@@ -106,15 +75,13 @@
     .weight-input {
       background: #1a1a1a; border: 1px solid var(--border2); border-radius: 7px;
       color: var(--muted); font-size: 16px; font-weight: 600;
-      padding: 5px 8px; width: 66px; text-align: center; outline: none; -webkit-appearance: none;
+      padding: 5px 8px; width: 70px; text-align: center; outline: none; -webkit-appearance: none;
     }
     .weight-input:focus { border-color: var(--accent); color: var(--text); }
-
     .set-row { display: flex; gap: 8px; flex-wrap: wrap; }
     .set-btn {
-      width: 44px; height: 44px; border-radius: 10px;
-      border: 1px solid var(--border2); background: #1a1a1a;
-      color: var(--dim); font-size: 15px; font-weight: 700;
+      width: 44px; height: 44px; border-radius: 10px; border: 1px solid var(--border2);
+      background: #1a1a1a; color: var(--dim); font-size: 15px; font-weight: 700;
       transition: background 0.15s, color 0.15s, border-color 0.15s, transform 0.08s;
     }
     .set-btn:active { transform: scale(0.92); }
@@ -123,39 +90,23 @@
     /* INLINE CARD TIMER */
     .card-timer {
       display: none; align-items: center; justify-content: space-between;
-      margin-top: 10px; padding: 10px 12px;
-      background: #1a1a1a; border: 1px solid var(--border2);
-      border-radius: 9px; transition: background 0.3s, border-color 0.3s;
+      margin-top: 10px; padding: 10px 12px; background: #1a1a1a;
+      border: 1px solid var(--border2); border-radius: 9px; transition: background 0.3s, border-color 0.3s;
     }
     .card-timer.visible { display: flex; }
     .card-timer.go { background: var(--green); border-color: var(--green); }
-
-    .ct-count {
-      font-size: 24px; font-weight: 800;
-      font-variant-numeric: tabular-nums; letter-spacing: 0.04em; color: var(--text);
-    }
+    .ct-count { font-size: 24px; font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: 0.04em; color: var(--text); }
     .card-timer.go .ct-count { display: none; }
-
-    .ct-go {
-      display: none; font-size: 18px; font-weight: 900;
-      color: #000; letter-spacing: 0.25em; flex: 1; text-align: center;
-    }
+    .ct-go { display: none; font-size: 18px; font-weight: 900; color: #000; letter-spacing: 0.25em; flex: 1; text-align: center; }
     .card-timer.go .ct-go { display: block; }
     .card-timer.go .ct-actions { display: none; }
-
     .ct-actions { display: flex; gap: 6px; align-items: center; }
-    .t-btn {
-      background: #2a2a2a; border-radius: 7px; color: var(--muted);
-      padding: 6px 11px; font-size: 15px; transition: background 0.1s;
-    }
+    .t-btn { background: #2a2a2a; border-radius: 7px; color: var(--muted); padding: 6px 11px; font-size: 15px; transition: background 0.1s; }
     .t-btn:active { background: #383838; }
     .t-skip { background: transparent; color: var(--dim); font-size: 12px; letter-spacing: 0.06em; padding: 6px 4px; }
 
     /* DONE */
-    #done-screen {
-      display: flex; flex-direction: column; align-items: center;
-      justify-content: center; min-height: 100vh; gap: 14px; padding: 32px; text-align: center;
-    }
+    #done-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; gap: 14px; padding: 32px; text-align: center; }
     .done-check { font-size: 72px; color: var(--green); line-height: 1; }
     .done-title { font-size: 26px; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase; }
     .done-sub { font-size: 14px; color: var(--muted); }
@@ -190,10 +141,6 @@
       <div id="day-b-list"></div>
     </button>
   </div>
-  <div class="rest-setting">
-    <span class="rest-label">Rest</span>
-    <div class="rest-chips" id="rest-chips"></div>
-  </div>
 </div>
 
 <!-- SESSION -->
@@ -202,6 +149,10 @@
     <button id="back-btn" onclick="goHome()">← Back</button>
     <div id="session-title">Day A</div>
     <div id="progress-counter">0/0</div>
+  </div>
+  <div id="session-rest" class="rest-setting">
+    <span class="rest-label">Rest</span>
+    <div class="rest-chips" id="session-rest-chips"></div>
   </div>
   <div id="exercise-list"></div>
 </div>
@@ -244,30 +195,46 @@
   };
 
   const REST_OPTIONS = [90, 120, 150, 180];
-  const STORAGE_KEY  = 'wk_history';
+  const STORAGE_KEY = 'wk_history';
 
-  let currentDay   = null;
-  let completed    = {};
-  let weights      = {};
+  let currentDay  = null;
+  let completed   = {};
+  let weights     = {};
   let restDuration = 150;
+  let timerEndTime = null;
+  let timerExId    = null;
+  let timerInterval = null;
+  let timerPausedRemaining = null;
+  let sessionActive = false;
 
-  // Timer state — timestamp based so it survives backgrounding
-  let timerEndTime   = null; // ms epoch when timer expires
-  let timerExId      = null; // which card is showing the timer
-  let timerInterval  = null;
-
-  // ── STORAGE ──
   function loadHistory() {
     try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }
     catch { return {}; }
   }
+
   function saveSession(day, w) {
     const h = loadHistory();
     h[day] = { weights: w, date: new Date().toLocaleDateString() };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(h));
   }
 
-  // ── INIT ──
+  function buildRestChips(containerId) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = '';
+    REST_OPTIONS.forEach(s => {
+      const btn = document.createElement('button');
+      btn.className = 'rest-chip' + (s === restDuration ? ' active' : '');
+      btn.textContent = s === 90 ? '1:30' : s === 120 ? '2:00' : s === 150 ? '2:30 ★' : '3:00';
+      btn.dataset.val = s;
+      btn.onclick = () => {
+        restDuration = s;
+        document.querySelectorAll('.rest-chip').forEach(c => c.classList.remove('active'));
+        document.querySelectorAll('.rest-chip[data-val="' + s + '"]').forEach(c => c.classList.add('active'));
+      };
+      container.appendChild(btn);
+    });
+  }
+
   function init() {
     ['A','B'].forEach(d => {
       const el = document.getElementById('day-' + d.toLowerCase() + '-list');
@@ -279,20 +246,8 @@
       });
     });
 
-    const chipContainer = document.getElementById('rest-chips');
-    REST_OPTIONS.forEach(s => {
-      const btn = document.createElement('button');
-      btn.className = 'rest-chip' + (s === restDuration ? ' active' : '');
-      btn.textContent = s === 90 ? '1:30' : s === 120 ? '2:00' : s === 150 ? '2:30 ★' : '3:00';
-      btn.onclick = () => {
-        restDuration = s;
-        document.querySelectorAll('.rest-chip').forEach(c => c.classList.remove('active'));
-        btn.classList.add('active');
-      };
-      chipContainer.appendChild(btn);
-    });
+    buildRestChips('session-rest-chips');
 
-    // Resume timer if app was backgrounded
     document.addEventListener('visibilitychange', () => {
       if (!document.hidden && timerEndTime !== null) tickTimer();
     });
@@ -322,11 +277,16 @@
     });
   }
 
-  // ── SESSION ──
   function startSession(day) {
+    // If a session is already active with a different day, warn
+    if (sessionActive && currentDay && currentDay !== day) {
+      if (!confirm('Switch to Day ' + day + '? Current progress will be lost.')) return;
+    }
+
     currentDay = day;
     completed  = {};
     weights    = {};
+    sessionActive = true;
     stopTimer();
 
     PROGRAM[day].exercises.forEach(ex => { completed[ex.id] = Array(ex.sets).fill(false); });
@@ -348,7 +308,7 @@
 
     PROGRAM[currentDay].exercises.forEach(ex => {
       const card = document.createElement('div');
-      card.className = 'ex-card';
+      card.className = 'ex-card' + (completed[ex.id].every(Boolean) ? ' done' : '');
       card.id = 'card-' + ex.id;
 
       const meta = [ex.sets + ' × ' + ex.reps, ex.note].filter(Boolean).join(' · ');
@@ -366,7 +326,7 @@
           '<span class="ct-count">0:00</span>' +
           '<span class="ct-go">GO</span>' +
           '<div class="ct-actions">' +
-            '<button class="t-btn" onclick="pauseTimer()">⏸</button>' +
+            '<button class="t-btn ct-pause" onclick="pauseTimer()">⏸</button>' +
             '<button class="t-btn" onclick="resetTimer()">↺</button>' +
             '<button class="t-btn t-skip" onclick="skipTimer()">Skip</button>' +
           '</div>' +
@@ -418,21 +378,15 @@
 
   function checkSessionComplete() {
     const allDone = PROGRAM[currentDay].exercises.every(ex => completed[ex.id].every(Boolean));
-    if (allDone) { stopTimer(); saveSession(currentDay, weights); showDone(); }
+    if (allDone) { stopTimer(); saveSession(currentDay, weights); sessionActive = false; showDone(); }
   }
 
-  // ── TIMER (timestamp-based) ──
-  let timerPausedRemaining = null; // ms remaining when paused
-
+  // TIMER
   function startTimer(seconds, exId) {
     stopTimer();
-    // Hide previous timer card if different exercise
-    if (timerExId && timerExId !== exId) hideTimerCard(timerExId);
-
     timerExId = exId;
     timerPausedRemaining = null;
     timerEndTime = Date.now() + seconds * 1000;
-
     showTimerCard(exId);
     timerInterval = setInterval(tickTimer, 250);
   }
@@ -460,16 +414,14 @@
   function pauseTimer() {
     if (!timerExId) return;
     const card = document.getElementById('timer-' + timerExId);
-    const pauseBtn = card.querySelector('.t-btn');
+    const pauseBtn = card.querySelector('.ct-pause');
     if (timerEndTime !== null) {
-      // Pause
       timerPausedRemaining = Math.max(0, timerEndTime - Date.now());
       timerEndTime = null;
       clearInterval(timerInterval);
       timerInterval = null;
       pauseBtn.textContent = '▶';
     } else if (timerPausedRemaining !== null) {
-      // Resume
       timerEndTime = Date.now() + timerPausedRemaining;
       timerPausedRemaining = null;
       timerInterval = setInterval(tickTimer, 250);
@@ -479,10 +431,8 @@
 
   function resetTimer() {
     if (!timerExId) return;
-    const exId = timerExId;
-    const card = document.getElementById('timer-' + exId);
-    const pauseBtn = card.querySelector('.t-btn');
-    pauseBtn.textContent = '⏸';
+    const card = document.getElementById('timer-' + timerExId);
+    card.querySelector('.ct-pause').textContent = '⏸';
     timerPausedRemaining = null;
     timerEndTime = Date.now() + restDuration * 1000;
     card.classList.remove('go');
@@ -490,9 +440,7 @@
     timerInterval = setInterval(tickTimer, 250);
   }
 
-  function skipTimer() {
-    stopTimer();
-  }
+  function skipTimer() { stopTimer(); }
 
   function showTimerCard(exId) {
     const card = document.getElementById('timer-' + exId);
@@ -514,7 +462,7 @@
     else card.classList.remove('go');
   }
 
-  // ── DONE ──
+  // DONE
   function showDone() {
     const exercises = PROGRAM[currentDay].exercises;
     const total = exercises.reduce((a, ex) => a + ex.sets, 0);
